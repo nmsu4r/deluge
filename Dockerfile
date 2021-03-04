@@ -16,9 +16,7 @@ RUN apk --no-cache add \
 
 WORKDIR /tmp
 # Do not shallow close as Deluge uses git information to generate a version
-RUN git clone https://github.com/deluge-torrent/deluge.git . && \
-    git reset --hard ${DELUGE_COMMIT} && \
-    echo ${DELUGE_VER} > RELEASE-VERSION && \
+RUN git clone --depth 1 --branch deluge-${DELUGE_COMMIT} https://github.com/deluge-torrent/deluge.git . && \
     python3 setup.py install --root=/deluge --prefix=/usr && \
     \
     cd /deluge && \
